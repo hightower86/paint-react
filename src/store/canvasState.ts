@@ -23,7 +23,7 @@ class CanvasState {
     this.username = username;
   }
 
-  setCanvas(canvas: HTMLCanvasElement) {
+  setCanvas(canvas: HTMLCanvasElement | null) {
     this.canvas = canvas;
   }
 
