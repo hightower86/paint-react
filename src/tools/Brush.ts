@@ -1,12 +1,10 @@
-import { MouseEvent, MouseEventHandler } from "react";
 import Tool from "./Tool";
 
 export default class Brush extends Tool {
-  mouseDown: boolean;
+  // constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
   constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
     super(canvas as HTMLCanvasElement, socket, id);
     this.listen();
-    this.mouseDown = false;
   }
 
   listen() {
@@ -37,23 +35,28 @@ export default class Brush extends Tool {
   }
   mouseMoveHandler(e: any) {
     if (this.mouseDown) {
-      // this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop)
-      this.socket.send(
-        JSON.stringify({
-          method: "draw",
-          id: this.id,
-          figure: {
-            type: "brush",
-            x: e.pageX - e.target.offsetLeft,
-            y: e.pageY - e.target.offsetTop,
-          },
-        })
-      );
+      console.log(this);
+      this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+      // this.socket.send(
+      //   JSON.stringify({
+      //     method: "draw",
+      //     id: this.id,
+      //     figure: {
+      //       type: "brush",
+      //       x: e.pageX - e.target.offsetLeft,
+      //       y: e.pageY - e.target.offsetTop,
+      //     },
+      //   })
+      // );
     }
   }
 
-  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
-    ctx.lineTo(x, y);
-    ctx.stroke();
+  // static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  //   ctx.lineTo(x, y);
+  //   ctx.stroke();
+  // }
+  draw(x: number, y: number) {
+    this.ctx!.lineTo(x, y);
+    this.ctx!.stroke();
   }
 }
