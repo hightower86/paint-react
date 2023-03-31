@@ -56,8 +56,8 @@ export default class Eraser extends Tool {
   // }
   draw(x: number, y: number) {
     this.ctx!.globalCompositeOperation = "destination-out";
-    this.ctx!.lineWidth = 10;
     this.ctx!.lineTo(x, y);
     this.ctx!.stroke();
+    this.ctx!.globalCompositeOperation = "source-over";
   }
 }
