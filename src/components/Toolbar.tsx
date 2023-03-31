@@ -11,6 +11,11 @@ import Rect from "../tools/Rect";
 interface Props {}
 
 const Toolbar = (props: Props) => {
+  const changeColor = (e: Record<string, any>) => {
+    toolState.setStrokeColor(e.target!.value);
+    toolState.setFillColor(e.target!.value);
+  };
+
   return (
     <div className="toolbar">
       <button
@@ -41,9 +46,19 @@ const Toolbar = (props: Props) => {
           toolState.setTool(new Line(canvasState.canvas as HTMLCanvasElement))
         }
       />
-      <input type="color" style={{ marginLeft: "10px" }} />
-      <button className="toolbar__btn undo" />
-      <button className="toolbar__btn redo" />
+      <input
+        onChange={(e) => changeColor(e)}
+        style={{ marginLeft: 10 }}
+        type="color"
+      />
+      <button
+        className="toolbar__btn undo"
+        onClick={() => canvasState.undo()}
+      />
+      <button
+        className="toolbar__btn redo"
+        onClick={() => canvasState.redo()}
+      />
       <button className="toolbar__btn save" />
     </div>
   );

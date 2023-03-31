@@ -43,11 +43,11 @@ class CanvasState {
       let img = new Image();
       img.src = dataUrl;
       img.onload = () => {
-        ctx?.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
-        ctx?.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
+        ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+        ctx!.drawImage(img, 0, 0, this.canvas!.width, this.canvas!.height);
       };
     } else {
-      ctx?.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
+      ctx!.clearRect(0, 0, this.canvas!.width, this.canvas!.height);
     }
   }
 
