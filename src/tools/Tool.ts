@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 export default class Tool {
   canvas: HTMLCanvasElement | null;
   socket: any;

@@ -14,6 +14,7 @@ const Canvas = observer((props: Props) => {
     canvasState.setCanvas(canvasRef.current);
     toolState.setTool(
       new Brush(canvasRef.current as HTMLCanvasElement, null, 0)
+      // new Brush(canvasRef.current)
     );
   }, []);
 
