@@ -5,10 +5,13 @@ export default class Tool {
   ctx: CanvasRenderingContext2D | null;
   startX: number;
   startY: number;
+  currentX: number;
+  currentY: number;
   width: number;
   height: number;
   mouseDown: boolean;
   saved: string;
+  name: string;
 
   constructor(canvas: HTMLCanvasElement, socket: any, id: number) {
     this.canvas = canvas;
@@ -18,10 +21,13 @@ export default class Tool {
     this.destroyEvents();
     this.startX = 0;
     this.startY = 0;
+    this.currentX = 0;
+    this.currentY = 0;
     this.width = 0;
     this.height = 0;
     this.mouseDown = false;
     this.saved = "";
+    this.name = "";
   }
 
   set fillColor(color: string) {
