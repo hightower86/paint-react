@@ -6,12 +6,17 @@ import {
   redirect,
 } from "react-router-dom";
 import App from "./App";
+import About from "./components/About";
 import "./styles/app.scss";
 
 const router = createBrowserRouter([
   {
     path: "/:id",
     element: <App />,
+  },
+  {
+    path: "/about",
+    element: <About />,
   },
   {
     path: "*",
