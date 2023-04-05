@@ -28,6 +28,15 @@ export default class Rect extends Tool {
         },
       })
     );
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
   mouseDownHandler(e: any) {
     this.mouseDown = true;

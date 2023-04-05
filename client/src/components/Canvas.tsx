@@ -5,6 +5,7 @@ import canvasState from "../store/canvasState";
 import toolState from "../store/toolState";
 import "../styles/canvas.scss";
 import Brush from "../tools/Brush";
+import Rect from "../tools/Rect";
 import { Message } from "../types";
 import Modal from "./Modal";
 
@@ -64,10 +65,19 @@ const Canvas = observer((props: Props) => {
   const drawHandler = (msg: Message) => {
     const figure = msg.figure;
     const ctx = canvasRef.current!.getContext("2d");
-    console.log({ figure }, { ctx });
     switch (figure!.type) {
       case "brush":
         Brush.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
+        break;
+      case "rect":
+        Rect.staticDraw(
+          ctx as CanvasRenderingContext2D,
+          figure!.x,
+          figure!.y,
+          figure!.width,
+          figure!.height,
+          figure!.color
+        );
         break;
       case "finish":
         ctx?.beginPath();
