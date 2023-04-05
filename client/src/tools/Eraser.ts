@@ -2,7 +2,7 @@ import Tool from "./Tool";
 
 export default class Eraser extends Tool {
   // constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
-  constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
+  constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, id: string) {
     super(canvas as HTMLCanvasElement, socket, id);
     this.listen();
   }

@@ -1,9 +1,11 @@
 import { makeAutoObservable } from "mobx";
 
+type Nullable<T> = T | null;
+
 class CanvasState {
-  canvas: HTMLCanvasElement | null = null;
-  socket: unknown | null = null;
-  sessionid: unknown | null = null;
+  canvas: Nullable<HTMLCanvasElement> = null;
+  socket: Nullable<WebSocket> = null;
+  sessionid: string | null = null;
   undoList: Array<unknown> = [];
   redoList: Array<unknown> = [];
   username: string = "";
@@ -12,10 +14,10 @@ class CanvasState {
     makeAutoObservable(this);
   }
 
-  setSessionId(id: number) {
+  setSessionId(id: string) {
     this.sessionid = id;
   }
-  setSocket(socket: unknown) {
+  setSocket(socket: WebSocket) {
     this.socket = socket;
   }
 
@@ -23,7 +25,7 @@ class CanvasState {
     this.username = username;
   }
 
-  setCanvas(canvas: HTMLCanvasElement | null) {
+  setCanvas(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
   }
 
