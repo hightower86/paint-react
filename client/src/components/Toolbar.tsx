@@ -11,8 +11,19 @@ interface Props {}
 
 const Toolbar = (props: Props) => {
   const changeColor = (e: Record<string, any>) => {
-    toolState.setStrokeColor(e.target!.value);
+    // toolState.setStrokeColor(e.target!.value);
     toolState.setFillColor(e.target!.value);
+  };
+
+  const download = () => {
+    const dataUrl = canvasState.canvas!.toDataURL();
+    console.log(dataUrl);
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = canvasState.sessionid + ".jpg";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -90,7 +101,7 @@ const Toolbar = (props: Props) => {
         className="toolbar__btn redo"
         onClick={() => canvasState.redo()}
       />
-      <button className="toolbar__btn save" />
+      <button className="toolbar__btn save" onClick={download} />
     </div>
   );
 };
