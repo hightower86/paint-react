@@ -1,4 +1,3 @@
-import React from "react";
 import canvasState from "../store/canvasState";
 import toolState from "../store/toolState";
 import "../styles/toolbar.scss";
@@ -21,29 +20,61 @@ const Toolbar = (props: Props) => {
       <button
         className="toolbar__btn brush"
         onClick={() =>
-          toolState.setTool(new Brush(canvasState.canvas, null, 0))
+          toolState.setTool(
+            new Brush(
+              canvasState.canvas as HTMLCanvasElement,
+              canvasState.socket as WebSocket,
+              canvasState.sessionid || ""
+            )
+          )
         }
       />
       <button
         className="toolbar__btn rect"
-        onClick={() => toolState.setTool(new Rect(canvasState.canvas, null, 0))}
+        onClick={() =>
+          toolState.setTool(
+            new Rect(
+              canvasState.canvas as HTMLCanvasElement,
+              canvasState.socket as WebSocket,
+              canvasState.sessionid || ""
+            )
+          )
+        }
       />
       <button
         className="toolbar__btn circle"
         onClick={() =>
-          toolState.setTool(new Circle(canvasState.canvas, null, 0))
+          toolState.setTool(
+            new Circle(
+              canvasState.canvas as HTMLCanvasElement,
+              canvasState.socket as WebSocket,
+              canvasState.sessionid || ""
+            )
+          )
         }
       />
       <button
         className="toolbar__btn eraser"
         onClick={() =>
-          toolState.setTool(new Eraser(canvasState.canvas, null, 0))
+          toolState.setTool(
+            new Eraser(
+              canvasState.canvas as HTMLCanvasElement,
+              canvasState.socket as WebSocket,
+              canvasState.sessionid || ""
+            )
+          )
         }
       />
       <button
         className="toolbar__btn line"
         onClick={() =>
-          toolState.setTool(new Line(canvasState.canvas as HTMLCanvasElement))
+          toolState.setTool(
+            new Line(
+              canvasState.canvas as HTMLCanvasElement,
+              canvasState.socket as WebSocket,
+              canvasState.sessionid || ""
+            )
+          )
         }
       />
       <input

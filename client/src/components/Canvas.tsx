@@ -5,6 +5,7 @@ import canvasState from "../store/canvasState";
 import toolState from "../store/toolState";
 import "../styles/canvas.scss";
 import Brush from "../tools/Brush";
+import { Message } from "../types";
 import Modal from "./Modal";
 
 interface Props {}
@@ -20,17 +21,18 @@ const Canvas = observer((props: Props) => {
   };
 
   useEffect(() => {
-    canvasState.setCanvas(canvasRef.current);
-    toolState.setTool(
-      new Brush(canvasRef.current as HTMLCanvasElement, null, 0)
-      // new Brush(canvasRef.current)
-    );
+    canvasState.setCanvas(canvasRef.current as HTMLCanvasElement);
   }, []);
 
   useEffect(() => {
     if (!canvasState.username) return;
 
     const socket = new WebSocket("ws://localhost:8000/");
+    canvasState.setSocket(socket);
+    canvasState.setSessionId(id || "");
+    toolState.setTool(
+      new Brush(canvasRef!.current as HTMLCanvasElement, socket, id as string)
+    );
     socket.onopen = () => {
       console.log("Connection Exists");
       socket.send(
@@ -41,10 +43,40 @@ const Canvas = observer((props: Props) => {
         })
       );
     };
+
     socket.onmessage = (event) => {
-      console.log(event.data);
+      console.log({ event });
+      let msg = JSON.parse(event.data);
+      switch (msg.method) {
+        case "connection":
+          console.log(`User ${msg.username} connected`);
+          break;
+        case "draw":
+          drawHandler(msg);
+          break;
+
+        default:
+          break;
+      }
     };
   }, [canvasState.username]);
+
+  const drawHandler = (msg: Message) => {
+    const figure = msg.figure;
+    const ctx = canvasRef.current!.getContext("2d");
+    console.log({ figure }, { ctx });
+    switch (figure!.type) {
+      case "brush":
+        Brush.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
+        break;
+      case "finish":
+        ctx?.beginPath();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const mouseDownHandler = () => {
     canvasState.pushToUndo(canvasRef.current!.toDataURL());
@@ -59,10 +91,6 @@ const Canvas = observer((props: Props) => {
     <div className="canvas">
       <Modal open={modalOpened}>
         <h3 className="font-bold text-lg">Input UserName please</h3>
-        {/* <p className="py-4">
-          You havve been selected for a chance to get one year of subscription
-          to use Wikipedia for free!
-        </p> */}
         <input
           ref={usernameRef}
           type="text"

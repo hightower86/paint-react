@@ -1,8 +1,8 @@
 import Tool from "./Tool";
 
 export default class Line extends Tool {
-  constructor(canvas: HTMLCanvasElement) {
-    super(canvas, null, 0);
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
+    super(canvas, socket, id);
     this.listen();
     this.name = "Line";
   }

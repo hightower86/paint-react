@@ -1,7 +1,7 @@
 import Tool from "./Tool";
 
 export default class Rect extends Tool {
-  constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
+  constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
     super(canvas as HTMLCanvasElement, socket, id);
     this.listen();
   }
