@@ -1,6 +1,6 @@
 export interface Message {
   message: string;
-  method: "message" | "connection";
+  method: "message" | "connection" | "draw";
   id: number | string;
   username: string;
 }
