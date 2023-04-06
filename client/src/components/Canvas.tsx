@@ -1,5 +1,5 @@
-import { observer } from "mobx-react-lite";
 import React, { useEffect, useRef, useState } from "react";
+import { observer } from "mobx-react-lite";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import canvasState from "../store/canvasState";
@@ -9,6 +9,7 @@ import Brush from "../tools/Brush";
 import Rect from "../tools/Rect";
 import { Message } from "../types";
 import Modal from "./Modal";
+import Circle from "../tools/Circle";
 
 interface Props {}
 
@@ -99,6 +100,16 @@ const Canvas = observer((props: Props) => {
           figure!.color
         );
         break;
+      case "circle":
+        debugger;
+        Circle.staticDraw(
+          ctx as CanvasRenderingContext2D,
+          figure!.x,
+          figure!.y,
+          figure!.r,
+          figure!.color
+        );
+        break;
       case "finish":
         ctx?.beginPath();
         break;
@@ -110,14 +121,8 @@ const Canvas = observer((props: Props) => {
 
   const mouseDownHandler = () => {
     canvasState.pushToUndo(canvasRef.current!.toDataURL());
-    // axios
-    //   .post(`http://localhost:8000/image?id=${id}`, {
-    //     img: canvasRef.current!.toDataURL(),
-    //   })
-    //   .then((response) => console.log(response.data));
   };
   const mouseUpHandler = () => {
-    // canvasState.pushToUndo(canvasRef.current!.toDataURL());
     axios
       .post(`http://localhost:8000/image?id=${id}`, {
         img: canvasRef.current!.toDataURL(),
