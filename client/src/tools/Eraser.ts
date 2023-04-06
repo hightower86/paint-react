@@ -1,7 +1,6 @@
 import Tool from "./Tool";
 
 export default class Eraser extends Tool {
-  // constructor(canvas: HTMLCanvasElement | null, socket: any, id: number) {
   constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, id: string) {
     super(canvas as HTMLCanvasElement, socket, id);
     this.listen();
@@ -15,15 +14,15 @@ export default class Eraser extends Tool {
 
   mouseUpHandler(e: any) {
     this.mouseDown = false;
-    // this.socket.send(
-    //   JSON.stringify({
-    //     method: "draw",
-    //     id: this.id,
-    //     figure: {
-    //       type: "finish",
-    //     },
-    //   })
-    // );
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
   mouseDownHandler(e: any) {
     this.mouseDown = true;
@@ -35,29 +34,24 @@ export default class Eraser extends Tool {
   }
   mouseMoveHandler(e: any) {
     if (this.mouseDown) {
-      this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
-      // this.socket.send(
-      //   JSON.stringify({
-      //     method: "draw",
-      //     id: this.id,
-      //     figure: {
-      //       type: "brush",
-      //       x: e.pageX - e.target.offsetLeft,
-      //       y: e.pageY - e.target.offsetTop,
-      //     },
-      //   })
-      // );
+      this.socket.send(
+        JSON.stringify({
+          method: "draw",
+          id: this.id,
+          figure: {
+            type: "eraser",
+            x: e.pageX - e.target.offsetLeft,
+            y: e.pageY - e.target.offsetTop,
+          },
+        })
+      );
     }
   }
 
-  // static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  //   ctx.lineTo(x, y);
-  //   ctx.stroke();
-  // }
-  draw(x: number, y: number) {
-    this.ctx!.globalCompositeOperation = "destination-out";
-    this.ctx!.lineTo(x, y);
-    this.ctx!.stroke();
-    this.ctx!.globalCompositeOperation = "source-over";
+  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.globalCompositeOperation = "source-over";
   }
 }

@@ -10,6 +10,7 @@ import Rect from "../tools/Rect";
 import { Message } from "../types";
 import Modal from "./Modal";
 import Circle from "../tools/Circle";
+import Eraser from "../tools/Eraser";
 
 interface Props {}
 
@@ -89,6 +90,9 @@ const Canvas = observer((props: Props) => {
     switch (figure!.type) {
       case "brush":
         Brush.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
+        break;
+      case "eraser":
+        Eraser.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
         break;
       case "rect":
         Rect.staticDraw(
