@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import canvasState from "../store/canvasState";
 import toolState from "../store/toolState";
@@ -46,7 +47,6 @@ const Canvas = observer((props: Props) => {
     };
 
     socket.onmessage = (event) => {
-      console.log({ event });
       let msg = JSON.parse(event.data);
       switch (msg.method) {
         case "connection":
@@ -90,6 +90,11 @@ const Canvas = observer((props: Props) => {
 
   const mouseDownHandler = () => {
     canvasState.pushToUndo(canvasRef.current!.toDataURL());
+    axios
+      .post(`http://localhost:8000/image?id=${id}`, {
+        img: canvasRef.current!.toDataURL(),
+      })
+      .then((response) => console.log(response.data));
   };
 
   const connectHandler = () => {
