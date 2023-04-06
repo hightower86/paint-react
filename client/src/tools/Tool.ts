@@ -9,6 +9,7 @@ export default class Tool {
   currentY: number;
   width: number;
   height: number;
+  radius: number;
   mouseDown: boolean;
   saved: string;
   name: string;
@@ -25,6 +26,7 @@ export default class Tool {
     this.currentY = 0;
     this.width = 0;
     this.height = 0;
+    this.radius = 0;
     this.mouseDown = false;
     this.saved = "";
     this.name = "";
