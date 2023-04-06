@@ -24,6 +24,26 @@ const Canvas = observer((props: Props) => {
 
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current as HTMLCanvasElement);
+    let ctx = canvasRef.current!.getContext("2d");
+    axios.get(`http://localhost:8000/image?id=${id}`).then((response) => {
+      const img = new Image();
+      img.src = response.data;
+      img.onload = () => {
+        ctx!.clearRect(
+          0,
+          0,
+          canvasRef.current!.width,
+          canvasRef.current!.height
+        );
+        ctx!.drawImage(
+          img,
+          0,
+          0,
+          canvasRef.current!.width,
+          canvasRef.current!.height
+        );
+      };
+    });
   }, []);
 
   useEffect(() => {
@@ -90,6 +110,14 @@ const Canvas = observer((props: Props) => {
 
   const mouseDownHandler = () => {
     canvasState.pushToUndo(canvasRef.current!.toDataURL());
+    // axios
+    //   .post(`http://localhost:8000/image?id=${id}`, {
+    //     img: canvasRef.current!.toDataURL(),
+    //   })
+    //   .then((response) => console.log(response.data));
+  };
+  const mouseUpHandler = () => {
+    // canvasState.pushToUndo(canvasRef.current!.toDataURL());
     axios
       .post(`http://localhost:8000/image?id=${id}`, {
         img: canvasRef.current!.toDataURL(),
@@ -119,7 +147,8 @@ const Canvas = observer((props: Props) => {
         </div>
       </Modal>
       <canvas
-        onMouseDown={() => mouseDownHandler()}
+        onMouseDown={mouseDownHandler}
+        onMouseUp={mouseUpHandler}
         ref={canvasRef}
         width={600}
         height={400}
