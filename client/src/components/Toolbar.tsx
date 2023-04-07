@@ -1,3 +1,6 @@
+import { BsBrush, BsCircle, BsEraser } from "react-icons/bs";
+import { MdRectangle, MdUndo, MdRedo, MdSave } from "react-icons/md";
+import { TfiRulerPencil } from "react-icons/tfi";
 import canvasState from "../store/canvasState";
 import toolState from "../store/toolState";
 import "../styles/toolbar.scss";
@@ -28,7 +31,7 @@ const Toolbar = (props: Props) => {
   return (
     <div className="toolbar">
       <button
-        className="toolbar__btn brush"
+        className="toolbar__btn"
         onClick={() =>
           toolState.setTool(
             new Brush(
@@ -38,9 +41,11 @@ const Toolbar = (props: Props) => {
             )
           )
         }
-      />
+      >
+        <BsBrush size={25} />
+      </button>
       <button
-        className="toolbar__btn rect"
+        className="toolbar__btn"
         onClick={() =>
           toolState.setTool(
             new Rect(
@@ -50,9 +55,11 @@ const Toolbar = (props: Props) => {
             )
           )
         }
-      />
+      >
+        <MdRectangle size={25} />
+      </button>
       <button
-        className="toolbar__btn circle"
+        className="toolbar__btn"
         onClick={() =>
           toolState.setTool(
             new Circle(
@@ -62,9 +69,11 @@ const Toolbar = (props: Props) => {
             )
           )
         }
-      />
+      >
+        <BsCircle size={25} />
+      </button>
       <button
-        className="toolbar__btn eraser"
+        className="toolbar__btn"
         onClick={() =>
           toolState.setTool(
             new Eraser(
@@ -74,9 +83,11 @@ const Toolbar = (props: Props) => {
             )
           )
         }
-      />
+      >
+        <BsEraser size={25} />
+      </button>
       <button
-        className="toolbar__btn line"
+        className="toolbar__btn"
         onClick={() =>
           toolState.setTool(
             new Line(
@@ -86,21 +97,26 @@ const Toolbar = (props: Props) => {
             )
           )
         }
-      />
+      >
+        <TfiRulerPencil size={25} />
+      </button>
       <input
         onChange={(e) => changeColor(e)}
         style={{ marginLeft: 10 }}
         type="color"
       />
       <button
-        className="toolbar__btn undo"
+        className="toolbar__btn ml-auto"
         onClick={() => canvasState.undo()}
-      />
-      <button
-        className="toolbar__btn redo"
-        onClick={() => canvasState.redo()}
-      />
-      <button className="toolbar__btn save" onClick={download} />
+      >
+        <MdUndo size={25} />
+      </button>
+      <button className="toolbar__btn " onClick={() => canvasState.redo()}>
+        <MdRedo size={25} />
+      </button>
+      <button className="toolbar__btn mr-2" onClick={download}>
+        <MdSave size={25} />
+      </button>
     </div>
   );
 };
