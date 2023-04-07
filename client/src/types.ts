@@ -7,9 +7,12 @@ export interface Message {
     type: "brush" | "eraser" | "line" | "circle" | "rect" | "finish";
     x: number;
     y: number;
+    xTo: number;
+    yTo: number;
     r: number;
     width: number;
     height: number;
     color: string;
+    saved: string;
   };
 }

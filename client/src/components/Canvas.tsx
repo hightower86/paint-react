@@ -11,6 +11,7 @@ import { Message } from "../types";
 import Modal from "./Modal";
 import Circle from "../tools/Circle";
 import Eraser from "../tools/Eraser";
+import Line from "../tools/Line";
 
 interface Props {}
 
@@ -105,13 +106,24 @@ const Canvas = observer((props: Props) => {
         );
         break;
       case "circle":
-        debugger;
         Circle.staticDraw(
           ctx as CanvasRenderingContext2D,
           figure!.x,
           figure!.y,
           figure!.r,
           figure!.color
+        );
+        break;
+      case "line":
+        debugger;
+        Line.staticDraw(
+          ctx as CanvasRenderingContext2D,
+          figure!.x,
+          figure!.y,
+          figure!.xTo,
+          figure!.yTo,
+          figure!.saved
+          // figure!.color
         );
         break;
       case "finish":
