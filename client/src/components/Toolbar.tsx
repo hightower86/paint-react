@@ -1,3 +1,7 @@
+import cn from "classnames";
+import { observable } from "mobx";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
 import { BsBrush, BsCircle, BsEraser } from "react-icons/bs";
 import { MdRectangle, MdUndo, MdRedo, MdSave } from "react-icons/md";
 import { TfiRulerPencil } from "react-icons/tfi";
@@ -12,7 +16,10 @@ import Rect from "../tools/Rect";
 
 interface Props {}
 
-const Toolbar = (props: Props) => {
+const Toolbar = observer((props: Props) => {
+  const [toolName, setToolName] = useState(
+    toolState.tool?.constructor.name || "Brush"
+  );
   const changeColor = (e: Record<string, any>) => {
     // toolState.setStrokeColor(e.target!.value);
     toolState.setFillColor(e.target!.value);
@@ -28,10 +35,14 @@ const Toolbar = (props: Props) => {
     document.body.removeChild(a);
   };
 
+  useEffect(() => {
+    setToolName(toolState.tool?.constructor.name);
+  }, [toolState.tool]);
+
   return (
     <div className="toolbar">
       <button
-        className="toolbar__btn"
+        className={cn("toolbar__btn", { ["active"]: toolName === "Brush" })}
         onClick={() =>
           toolState.setTool(
             new Brush(
@@ -45,7 +56,7 @@ const Toolbar = (props: Props) => {
         <BsBrush size={25} />
       </button>
       <button
-        className="toolbar__btn"
+        className={cn("toolbar__btn", { ["active"]: toolName === "Rect" })}
         onClick={() =>
           toolState.setTool(
             new Rect(
@@ -59,7 +70,7 @@ const Toolbar = (props: Props) => {
         <MdRectangle size={25} />
       </button>
       <button
-        className="toolbar__btn"
+        className={cn("toolbar__btn", { ["active"]: toolName === "Circle" })}
         onClick={() =>
           toolState.setTool(
             new Circle(
@@ -73,7 +84,7 @@ const Toolbar = (props: Props) => {
         <BsCircle size={25} />
       </button>
       <button
-        className="toolbar__btn"
+        className={cn("toolbar__btn", { ["active"]: toolName === "Eraser" })}
         onClick={() =>
           toolState.setTool(
             new Eraser(
@@ -87,7 +98,7 @@ const Toolbar = (props: Props) => {
         <BsEraser size={25} />
       </button>
       <button
-        className="toolbar__btn"
+        className={cn("toolbar__btn", { ["active"]: toolName === "Line" })}
         onClick={() =>
           toolState.setTool(
             new Line(
@@ -119,6 +130,6 @@ const Toolbar = (props: Props) => {
       </button>
     </div>
   );
-};
+});
 
 export default Toolbar;
