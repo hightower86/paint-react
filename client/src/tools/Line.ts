@@ -24,11 +24,35 @@ export default class Line extends Tool {
 
   mouseUpHandler(e: any) {
     this.mouseDown = false;
+    this.socket.send(
+      JSON.stringify({
+        method: "draw",
+        id: this.id,
+        figure: {
+          type: "finish",
+        },
+      })
+    );
   }
 
   mouseMoveHandler(e: any) {
     if (this.mouseDown) {
       this.draw(e.pageX - e.target.offsetLeft, e.pageY - e.target.offsetTop);
+      this.socket.send(
+        JSON.stringify({
+          method: "draw",
+          id: this.id,
+          figure: {
+            type: "line",
+            x: e.pageX - e.target.offsetLeft,
+            y: e.pageY - e.target.offsetTop,
+            xTo: this.currentX,
+            yTo: this.currentY,
+            saved: this.saved,
+            // color: this.ctx!.strokeStyle,
+          },
+        })
+      );
     }
   }
 
@@ -44,5 +68,27 @@ export default class Line extends Tool {
       ctx!.lineTo(x, y);
       ctx!.stroke();
     }.bind(this);
+  }
+
+  static staticDraw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    xTo: number,
+    yTo: number,
+    saved: string
+    // color: string
+  ) {
+    const { width, height } = ctx.canvas;
+    const img = new Image();
+    img.src = saved;
+    img.onload = async function () {
+      ctx!.clearRect(0, 0, width, height);
+      ctx!.beginPath();
+      ctx!.moveTo(x, y);
+      ctx!.lineTo(xTo, yTo);
+      ctx!.stroke();
+      ctx!.drawImage(img, 0, 0, width, height);
+    };
   }
 }
