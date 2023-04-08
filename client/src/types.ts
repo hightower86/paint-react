@@ -13,6 +13,13 @@ export interface Message {
     width: number;
     height: number;
     color: string;
+    lineColor: string;
+    lineWidth: number;
     saved: string;
+  };
+  tool?: {
+    name: string;
+    strokeColor?: string;
+    fillColor?: string;
   };
 }

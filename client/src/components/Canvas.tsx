@@ -90,10 +90,21 @@ const Canvas = observer((props: Props) => {
     const ctx = canvasRef.current!.getContext("2d");
     switch (figure!.type) {
       case "brush":
-        Brush.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
+        Brush.draw(
+          ctx as CanvasRenderingContext2D,
+          figure!.x,
+          figure!.y,
+          figure!.lineColor,
+          figure!.lineWidth
+        );
         break;
       case "eraser":
-        Eraser.draw(ctx as CanvasRenderingContext2D, figure!.x, figure!.y);
+        Eraser.draw(
+          ctx as CanvasRenderingContext2D,
+          figure!.x,
+          figure!.y,
+          figure!.lineWidth
+        );
         break;
       case "rect":
         Rect.staticDraw(
@@ -102,7 +113,9 @@ const Canvas = observer((props: Props) => {
           figure!.y,
           figure!.width,
           figure!.height,
-          figure!.color
+          figure!.color,
+          figure!.lineColor,
+          figure!.lineWidth
         );
         break;
       case "circle":
@@ -111,20 +124,23 @@ const Canvas = observer((props: Props) => {
           figure!.x,
           figure!.y,
           figure!.r,
-          figure!.color
+          figure!.color,
+          figure!.lineColor,
+          figure!.lineWidth
         );
         break;
       case "line":
-        debugger;
         Line.staticDraw(
           ctx as CanvasRenderingContext2D,
           figure!.x,
           figure!.y,
           figure!.xTo,
           figure!.yTo,
-          figure!.saved
-          // figure!.color
+          figure!.saved,
+          figure!.lineColor,
+          figure!.lineWidth
         );
+
         break;
       case "finish":
         ctx?.beginPath();

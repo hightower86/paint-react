@@ -25,6 +25,8 @@ export default class Rect extends Tool {
           width: this.width,
           height: this.height,
           color: this.ctx!.fillStyle,
+          lineColor: this.ctx!.strokeStyle,
+          lineWidth: this.ctx!.lineWidth,
         },
       })
     );
@@ -74,9 +76,13 @@ export default class Rect extends Tool {
     y: number,
     w: number,
     h: number,
-    color: string
+    color: string,
+    lineColor: string,
+    lineWidth: number
   ) {
     ctx.fillStyle = color;
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.fill();

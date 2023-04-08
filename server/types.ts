@@ -3,6 +3,11 @@ export interface Message {
   method: "message" | "connection" | "draw";
   id: number | string;
   username: string;
+  tool: {
+    name: string;
+    fillColor: string;
+    strokeColor: string;
+  };
 }
 
 export interface ExtWS extends WebSocket {

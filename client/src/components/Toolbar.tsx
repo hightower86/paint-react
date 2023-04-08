@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { observable } from "mobx";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { BsBrush, BsCircle, BsEraser } from "react-icons/bs";
@@ -17,11 +16,13 @@ import Rect from "../tools/Rect";
 interface Props {}
 
 const Toolbar = observer((props: Props) => {
-  const [toolName, setToolName] = useState(
+  const [toolName, setToolName] = useState<string>(
     toolState.tool?.constructor.name || "Brush"
   );
+
+  const { socket } = canvasState;
+
   const changeColor = (e: Record<string, any>) => {
-    // toolState.setStrokeColor(e.target!.value);
     toolState.setFillColor(e.target!.value);
   };
 
@@ -37,7 +38,36 @@ const Toolbar = observer((props: Props) => {
 
   useEffect(() => {
     setToolName(toolState.tool?.constructor.name);
+    if (socket && toolState.tool) {
+      console.log("@@socket", socket);
+      try {
+        socket.send(
+          JSON.stringify({
+            method: "tool",
+            id: canvasState.sessionid,
+            tool: {
+              name: toolState.tool?.constructor.name,
+            },
+          })
+        );
+      } catch (error) {
+        console.log("useEffect Toolbar error socket send", error);
+      }
+    }
   }, [toolState.tool]);
+
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket!.onmessage = (event) => {
+  //       console.log("@@ socket.onmessage event.data", event.data);
+  //       let msg = JSON.parse(event.data);
+  //       if (msg.method === "tool" && msg.tool?.name) {
+  //         setToolName(msg.tool.name);
+  //         console.log("msg.tool.name", msg.tool?.name);
+  //       }
+  //     };
+  //   }
+  // }, []);
 
   return (
     <div className="toolbar">
