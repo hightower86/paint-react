@@ -24,6 +24,8 @@ export default class Circle extends Tool {
           y: this.startY,
           r: this.radius,
           color: this.ctx!.fillStyle,
+          lineColor: this.ctx!.strokeStyle,
+          lineWidth: this.ctx!.lineWidth,
         },
       })
     );
@@ -74,9 +76,13 @@ export default class Circle extends Tool {
     x: number,
     y: number,
     r: number,
-    color: string
+    color: string,
+    lineColor: string,
+    lineWidth: number
   ) {
     ctx.fillStyle = color;
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 2 * Math.PI);
     ctx.fill();

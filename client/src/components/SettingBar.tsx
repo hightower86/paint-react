@@ -7,7 +7,7 @@ const SettingBar = (props: Props) => {
   return (
     <div className="setting-bar">
       <label className="ml-2" htmlFor="line-width">
-        Толщина линии
+        Line width
       </label>
       <input
         onChange={(e) => toolState.setLineWidth(e.target.value)}
@@ -18,7 +18,7 @@ const SettingBar = (props: Props) => {
         min={1}
         max={50}
       />
-      <label htmlFor="stroke-color">Цвет обводки</label>
+      <label htmlFor="stroke-color">Line (border) color</label>
       <input
         onChange={(e) => toolState.setStrokeColor(e.target.value)}
         id="stroke-color"

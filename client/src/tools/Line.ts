@@ -49,7 +49,8 @@ export default class Line extends Tool {
             xTo: this.currentX,
             yTo: this.currentY,
             saved: this.saved,
-            // color: this.ctx!.strokeStyle,
+            lineColor: this.ctx!.strokeStyle,
+            lineWidth: this.ctx!.lineWidth,
           },
         })
       );
@@ -76,8 +77,9 @@ export default class Line extends Tool {
     y: number,
     xTo: number,
     yTo: number,
-    saved: string
-    // color: string
+    saved: string,
+    lineColor: string,
+    lineWidth: number
   ) {
     const { width, height } = ctx.canvas;
     const img = new Image();
@@ -85,6 +87,8 @@ export default class Line extends Tool {
     img.onload = async function () {
       ctx!.clearRect(0, 0, width, height);
       ctx!.beginPath();
+      ctx!.strokeStyle = lineColor;
+      ctx!.lineWidth = lineWidth;
       ctx!.moveTo(x, y);
       ctx!.lineTo(xTo, yTo);
       ctx!.stroke();

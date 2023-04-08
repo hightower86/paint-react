@@ -25,6 +25,9 @@ appWSServer.app.ws("/", (ws, req) => {
       case "draw":
         broadcastConnection(ws as any, message);
         break;
+      case "tool":
+        broadcastConnection(ws as any, message);
+        break;
       case "message":
         console.log("method", message.method);
         break;

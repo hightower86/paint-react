@@ -42,14 +42,21 @@ export default class Eraser extends Tool {
             type: "eraser",
             x: e.pageX - e.target.offsetLeft,
             y: e.pageY - e.target.offsetTop,
+            lineWidth: this.ctx.lineWidth,
           },
         })
       );
     }
   }
 
-  static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+  static draw(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    lineWidth: number
+  ) {
     ctx.globalCompositeOperation = "destination-out";
+    ctx.lineWidth = lineWidth;
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.globalCompositeOperation = "source-over";
